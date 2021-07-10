@@ -160,7 +160,7 @@ public class AnalLex {
                         if(this.index == this.chaineLength)
                         {
                             ErreurLex("ERREUR: '" + caractere + "'\n" +
-                                                  "1) Underscore a la fin d'une operande");
+                                                  "1) Underscore a la fin de l'operande qui est tout a droite de L'ER");
                             return null;
                         }
                     }
