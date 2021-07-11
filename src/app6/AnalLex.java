@@ -27,51 +27,20 @@ public class AnalLex {
 
 	public boolean estUnChiffre(char caractere)
     {
-        if (caractere == '0' || caractere == '1' || caractere == '2' || caractere == '3' || caractere == '4' ||
-            caractere == '5' || caractere == '6' || caractere == '7' || caractere == '8' || caractere == '9')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (caractere >= 48 && caractere <= 57); // 48 : '0', 57 : '9'
     }
 
 
     public boolean estUneMajuscule(char caractere)
     {
-        if (caractere == 'A' || caractere == 'B' || caractere == 'C' || caractere == 'D' || caractere == 'E' || caractere == 'F' ||
-            caractere == 'G' || caractere == 'H' || caractere == 'I' || caractere == 'J' || caractere == 'K' || caractere == 'L' ||
-            caractere == 'M' || caractere == 'N' || caractere == 'O' || caractere == 'P' || caractere == 'Q' || caractere == 'R' ||
-            caractere == 'S' || caractere == 'T' || caractere == 'U' || caractere == 'V' || caractere == 'W' || caractere == 'X' ||
-            caractere == 'Y' || caractere == 'Z')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (caractere >= 65 && caractere <= 90); // 65 : 'A', 90 : 'Z'
     }
 
 
     public boolean estUneMinuscule(char caractere)
     {
-        if (caractere == 'a' || caractere == 'b' || caractere == 'c' || caractere == 'd' || caractere == 'e' || caractere == 'f' ||
-            caractere == 'g' || caractere == 'h' || caractere == 'i' || caractere == 'j' || caractere == 'k' || caractere == 'l' ||
-            caractere == 'm' || caractere == 'n' || caractere == 'o' || caractere == 'p' || caractere == 'q' || caractere == 'r' ||
-            caractere == 's' || caractere == 't' || caractere == 'u' || caractere == 'v' || caractere == 'w' || caractere == 'x' ||
-            caractere == 'y' || caractere == 'z')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (caractere >= 97 && caractere <= 122); // 97 : 'a', 122 : 'z'
     }
-
 
 /**
  * Constructeur pour l'initialisation d'attribut(s)
