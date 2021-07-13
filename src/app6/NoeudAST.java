@@ -7,6 +7,7 @@ public class NoeudAST extends ElemAST {
   private String content;
   private ElemAST leftChild;
   private ElemAST rightChild;
+  private boolean eval;
 
   /** Constructeur pour l'initialisation d'attributs
    */
@@ -14,6 +15,7 @@ public class NoeudAST extends ElemAST {
     this.content = content;
     this.leftChild = leftChild;
     this.rightChild = rightChild;
+    this.eval = true;
   }
 
  
@@ -21,6 +23,14 @@ public class NoeudAST extends ElemAST {
    */
   public int EvalAST( ) {
       int retour = 0;
+
+      int left = leftChild.EvalAST();
+      int right = rightChild.EvalAST();
+
+      if (!leftChild.isEval() || !rightChild.isEval()) {
+          this.eval = false;
+          return 0;
+      }
 
      switch (content) {
          case "+":
@@ -46,8 +56,13 @@ public class NoeudAST extends ElemAST {
     return leftChild.postfix() + rightChild.postfix() + content;
   }
 
+    @Override
+    public boolean isEval() {
+        return eval;
+    }
 
-  /** Lecture de noeud d'AST
+
+    /** Lecture de noeud d'AST
    */
   public String LectAST( ) {
      return "(" + leftChild.LectAST() + content + rightChild.LectAST() + ")";

@@ -121,7 +121,7 @@ public ElemAST F() {
 
   switch (t.type) {
     case operande:
-      n = new FeuilleAST(Integer.parseInt(t.chaine, 10));
+      n = new FeuilleAST(t.chaine);
       if (readIndex < terminalList.size() - 1) {
         readIndex++;
       }
@@ -193,6 +193,9 @@ public void ErreurSynt(String s)
       toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
+      if (!RacineAST.isEval()) {
+        System.out.println(ANSI_RED + "Impossible d'évaluer l'automate parce qu'au moins une des opérandes est une variable." + ANSI_RESET);
+      }
       System.out.println(toWriteEval);
       toWritePostfix += "Expression postfix trouve : " + RacineAST.postfix() + "\n";
       System.out.println(toWritePostfix);

@@ -28,4 +28,8 @@ public class Terminal {
         this.chaine = caractere;
         this.type =type;
     }
+
+    public String toString() {
+        return type.toString() + " : " + chaine;
+    }
 }
