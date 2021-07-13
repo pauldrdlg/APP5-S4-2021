@@ -40,6 +40,15 @@ public void initTerminalList(String in) {
   }
 }
 
+public void initTerminalListFromExpression(String expression) {
+  AnalLex lexical = new AnalLex(expression);
+  Terminal t = null;
+  while(lexical.resteTerminal()){
+    t = lexical.prochainTerminal();
+    terminalList.add(t);
+  }
+}
+
 
 /** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
  *    Elle retourne une reference sur la racine de l'AST construit
