@@ -101,9 +101,9 @@ public class AnalLex {
                         this.Etat = 2;
                         tempChaine += caractere;
                     } else {
-                        ErreurLex("ERREUR: '" + caractere + "'\n" +
-                                              "1) Caractere inexistant\n" +
-                                              "2) Pas de majuscule ou de chiffre au debut d'une operande");
+                        ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
+                                              "1) Caractère inexistant\n" +
+                                              "2) Pas de majuscule ou de chiffre au debut d'une opérande");
                         return null;
                     }
                     break;
@@ -128,8 +128,8 @@ public class AnalLex {
 
                         if(this.index == this.chaineLength)
                         {
-                            ErreurLex("ERREUR: '" + caractere + "'\n" +
-                                                  "1) Underscore a la fin de l'operande qui est tout a droite de L'ER");
+                            ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
+                                                  "1) Underscore a la fin de l'opérande qui est tout a droite de l'ER");
                             return null;
                         }
                     }
@@ -147,17 +147,17 @@ public class AnalLex {
                     }
                     else
                     {
-                        ErreurLex("ERREUR: '" + caractere + "'\n" +
-                                              "1) Caractere inexistant\n" +
+                        ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
+                                              "1) Caractère inexistant\n" +
                                               "2) Double Underscore l'un a la suite de l'autre\n" +
-                                              "3) Underscore a la fin d'une operande");
+                                              "3) Underscore a la fin d'une opérande");
                         return null;
                     }
                     break;
             }
         }
 
-        return new Terminal(tempChaine.toString(), types.operande);
+        return new Terminal(tempChaine, types.operande);
     }
 
 
