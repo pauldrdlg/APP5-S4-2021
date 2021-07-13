@@ -115,6 +115,8 @@ public ElemAST F() {
       cptParenthese++;
       n = E();
       terminal(types.parentheseFermante);
+      terminal(types.operateur);
+      readIndex--;
       break;
     default:
       ErreurSynt("Erreur Syntaxique!");
@@ -133,7 +135,7 @@ void terminal(types attendu) {
     }
   }
   else {
-    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " attendu au caractère " + (readIndex + 1));
+    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " attendu au caractère " + readIndex);
   }
 }
 
@@ -162,6 +164,7 @@ public void ErreurSynt(String s)
     }
     DescenteRecursive dr = new DescenteRecursive();
     dr.initTerminalList(args[0]);
+    dr.terminalList.add(new Terminal("test", types.operande));
     try {
       ElemAST RacineAST = dr.AnalSynt();
       toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
