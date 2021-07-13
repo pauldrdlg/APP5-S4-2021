@@ -5,6 +5,9 @@ package app6;
 import java.util.ArrayList;
 import java.util.List;
 
+import static app6.AnalLex.ANSI_RED;
+import static app6.AnalLex.ANSI_RESET;
+
 /** Cette classe effectue l'analyse syntaxique
  */
 public class DescenteRecursive {
@@ -12,6 +15,8 @@ public class DescenteRecursive {
   // Attributs
   private List<Terminal> terminalList;
   int readIndex;
+
+  int cptParenthese;
 
 
 
@@ -22,6 +27,7 @@ public class DescenteRecursive {
 public DescenteRecursive() {
   terminalList = new ArrayList();
   readIndex = 0;
+  cptParenthese = 0;
 }
 
 public void initTerminalList(String in) {
@@ -61,6 +67,15 @@ public ElemAST E() {
 
     }
   }
+  else if (t.type == types.parentheseFermante) {
+    cptParenthese--;
+    if (cptParenthese != 0) {
+      ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au caractère " + readIndex);
+    }
+  }
+  else if (t.type == types.parentheseOuvrante) {
+      ErreurSynt("Erreur Syntaxique : parenthèse ouvrante de trop au caractère " + readIndex);
+  }
   return nRetour;
 }
 
@@ -97,6 +112,7 @@ public ElemAST F() {
       if (readIndex < terminalList.size() - 1) {
         readIndex++;
       }
+      cptParenthese++;
       n = E();
       terminal(types.parentheseFermante);
       break;
@@ -117,7 +133,7 @@ void terminal(types attendu) {
     }
   }
   else {
-    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " attendu au caractère " + readIndex);
+    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " attendu au caractère " + (readIndex + 1));
   }
 }
 
@@ -127,7 +143,8 @@ void terminal(types attendu) {
  */
 public void ErreurSynt(String s)
 {
-    System.out.println(s);
+    System.out.println(ANSI_RED + s + ANSI_RESET);
+    System.exit(0);
 }
 
 
