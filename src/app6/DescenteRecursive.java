@@ -54,8 +54,16 @@ public ElemAST AnalSynt( ) {
 // Methode pour chaque symbole non-terminal de la grammaire retenue
 public ElemAST E() {
   ElemAST n1 = T();
-  Terminal t = terminalList.get(readIndex);
   ElemAST nRetour = n1;
+  Terminal t = null;
+  try
+  {
+    t = terminalList.get(readIndex);
+  }
+  catch(Exception e)
+  {
+    return nRetour;
+  }
 
   if (t.type == types.operateur) {
     if (t.chaine.equals("+") || t.chaine.equals("-")) {
@@ -64,25 +72,36 @@ public ElemAST E() {
       }
       ElemAST n2 = E();
       nRetour = new NoeudAST(t.chaine, n1, n2);
-
     }
   }
   else if (t.type == types.parentheseFermante) {
     cptParenthese--;
-    if (cptParenthese != 0) {
+    if (cptParenthese < 0) {
       ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au caractère " + readIndex);
     }
+    cptParenthese++;
   }
   else if (t.type == types.parentheseOuvrante) {
-      ErreurSynt("Erreur Syntaxique : parenthèse ouvrante de trop au caractère " + readIndex);
+      ErreurSynt("Erreur Syntaxique : il manque un opérateur au caractère " + readIndex);
+  }
+  else if (terminalList.get(readIndex - 1).type == types.parentheseFermante) {
+      ErreurSynt("Erreur Syntaxique : il manque un opérateur au caractère " + readIndex);
   }
   return nRetour;
 }
 
 public ElemAST T() {
   ElemAST n1 = F();
-  Terminal t = terminalList.get(readIndex);
   ElemAST nRetour = n1;
+  Terminal t = null;
+  try
+  {
+    t = terminalList.get(readIndex);
+  }
+  catch(Exception e)
+  {
+    return nRetour;
+  }
 
   if (t.type == types.operateur) {
     if (t.chaine.equals("*") || t.chaine.equals("/")) {
@@ -91,7 +110,6 @@ public ElemAST T() {
       }
       ElemAST n2 = T();
       nRetour = new NoeudAST(t.chaine, n1, n2);
-
     }
   }
   return nRetour;
@@ -115,11 +133,10 @@ public ElemAST F() {
       cptParenthese++;
       n = E();
       terminal(types.parentheseFermante);
-      terminal(types.operateur);
-      readIndex--;
+      cptParenthese--;
       break;
     default:
-      ErreurSynt("Erreur Syntaxique!");
+      ErreurSynt("Erreur Syntaxique: opérande ou paranthèse ouverte attendu au caractère " + readIndex);
       break;
 
   }
@@ -127,15 +144,21 @@ public ElemAST F() {
 }
 
 void terminal(types attendu) {
-  Terminal t = terminalList.get(readIndex);
+  Terminal t = null;
+  try
+  {
+    t = terminalList.get(readIndex);
+  }
+  catch(Exception e)
+  {
+    ErreurSynt("Erreur Syntaxique : il manque une paranthèse fermante");
+  }
 
   if (t.type == attendu) {
-    if (readIndex < terminalList.size() - 1) {
       readIndex++;
-    }
   }
   else {
-    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " attendu au caractère " + readIndex);
+    ErreurSynt("Erreur Syntaxique : " + attendu.toString() + " manquante");
   }
 }
 
@@ -165,7 +188,6 @@ public void ErreurSynt(String s)
     }
     DescenteRecursive dr = new DescenteRecursive();
     dr.initTerminalList(args[0]);
-    dr.terminalList.add(new Terminal("test", types.operateur));
     try {
       ElemAST RacineAST = dr.AnalSynt();
       toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
