@@ -20,6 +20,10 @@ public class FeuilleAST extends ElemAST {
       return value;
   }
 
+  public  String postfix() {
+      return String.valueOf(value);
+  }
+
 
  /** Lecture de chaine de caracteres correspondant a la feuille d'AST
   */

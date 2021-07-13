@@ -155,6 +155,7 @@ public void ErreurSynt(String s)
   public static void main(String[] args) {
     String toWriteLect = "";
     String toWriteEval = "";
+    String toWritePostfix = "";
 
     System.out.println("Debut d'analyse syntaxique");
     if (args.length == 0){
@@ -164,15 +165,17 @@ public void ErreurSynt(String s)
     }
     DescenteRecursive dr = new DescenteRecursive();
     dr.initTerminalList(args[0]);
-    dr.terminalList.add(new Terminal("test", types.operande));
+    dr.terminalList.add(new Terminal("test", types.operateur));
     try {
       ElemAST RacineAST = dr.AnalSynt();
       toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
       System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite 
-                                                              // dans fichier args[1]
+      toWritePostfix += "Expression postfix trouve : " + RacineAST.postfix() + "\n";
+      System.out.println(toWritePostfix);
+      Writer w = new Writer(args[1],toWriteLect+toWriteEval+toWritePostfix); // Ecriture de toWrite
+                                                                                  // dans fichier args[1]
     } catch (Exception e) {
       System.out.println(e);
       e.printStackTrace();

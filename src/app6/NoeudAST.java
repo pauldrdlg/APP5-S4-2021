@@ -42,6 +42,10 @@ public class NoeudAST extends ElemAST {
      return retour;
   }
 
+  public String postfix() {
+    return leftChild.postfix() + rightChild.postfix() + content;
+  }
+
 
   /** Lecture de noeud d'AST
    */

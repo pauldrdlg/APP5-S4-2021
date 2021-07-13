@@ -14,8 +14,13 @@ public abstract class ElemAST {
    */
   public abstract String LectAST();
 
+  /** Expression postfix
+   *
+   */
+  public abstract String postfix();
 
-/** ErreurEvalAST() envoie un message d'erreur lors de la construction d'AST
+
+  /** ErreurEvalAST() envoie un message d'erreur lors de la construction d'AST
  */  
   public void ErreurEvalAST(String s) {	
     // 
