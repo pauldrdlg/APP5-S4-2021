@@ -77,15 +77,14 @@ public ElemAST E() {
   else if (t.type == types.parentheseFermante) {
     cptParenthese--;
     if (cptParenthese < 0) {
-      ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au caractère " + readIndex);
+      ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au terminal " + readIndex);
     }
     cptParenthese++;
   }
-  else if (t.type == types.parentheseOuvrante) {
-      ErreurSynt("Erreur Syntaxique : il manque un opérateur au caractère " + readIndex);
-  }
-  else if (terminalList.get(readIndex - 1).type == types.parentheseFermante) {
-      ErreurSynt("Erreur Syntaxique : il manque un opérateur au caractère " + readIndex);
+  else if (t.type == types.parentheseOuvrante ||
+           terminalList.get(readIndex - 1).type == types.parentheseFermante ||
+           t.type == types.operande) {
+      ErreurSynt("Erreur Syntaxique : il manque un opérateur au terminal " + readIndex);
   }
   return nRetour;
 }
@@ -117,28 +116,31 @@ public ElemAST T() {
 
 public ElemAST F() {
   ElemAST n = null;
-  Terminal t = terminalList.get(readIndex);
+  Terminal t = null;
+  try
+  {
+      t = terminalList.get(readIndex);
+  }
+  catch(Exception e)
+  {
+      return n;
+  }
 
   switch (t.type) {
     case operande:
       n = new FeuilleAST(t.chaine);
-      if (readIndex < terminalList.size() - 1) {
-        readIndex++;
-      }
+      readIndex++;
       break;
     case parentheseOuvrante:
-      if (readIndex < terminalList.size() - 1) {
-        readIndex++;
-      }
+      readIndex++;
       cptParenthese++;
       n = E();
       terminal(types.parentheseFermante);
       cptParenthese--;
       break;
     default:
-      ErreurSynt("Erreur Syntaxique: opérande ou paranthèse ouverte attendu au caractère " + readIndex);
+      ErreurSynt("Erreur Syntaxique: opérande ou parenthèse ouverte attendu au terminal " + readIndex);
       break;
-
   }
   return n;
 }
@@ -151,7 +153,7 @@ void terminal(types attendu) {
   }
   catch(Exception e)
   {
-    ErreurSynt("Erreur Syntaxique : il manque une paranthèse fermante");
+    ErreurSynt("Erreur Syntaxique : il manque une parenthèse fermante");
   }
 
   if (t.type == attendu) {
@@ -194,10 +196,10 @@ public void ErreurSynt(String s)
       System.out.println(toWriteLect);
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
       if (!RacineAST.isEval()) {
-        System.out.println(ANSI_RED + "Impossible d'évaluer l'automate parce qu'au moins une des opérandes est une variable." + ANSI_RESET);
+        System.out.println(ANSI_RED + "Impossible d'évaluer l'expression parce qu'au moins une des opérandes est une variable." + ANSI_RESET);
       }
       System.out.println(toWriteEval);
-      toWritePostfix += "Expression postfix trouve : " + RacineAST.postfix() + "\n";
+      toWritePostfix += "Expression postfix trouvée : " + RacineAST.postfix() + "\n";
       System.out.println(toWritePostfix);
       Writer w = new Writer(args[1],toWriteLect+toWriteEval+toWritePostfix); // Ecriture de toWrite
                                                                                   // dans fichier args[1]
@@ -206,8 +208,6 @@ public void ErreurSynt(String s)
       e.printStackTrace();
       System.exit(51);
     }
-    System.out.println("Analyse syntaxique terminee");
+    System.out.println("Analyse syntaxique terminée");
   }
-
 }
-
