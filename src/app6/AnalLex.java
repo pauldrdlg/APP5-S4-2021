@@ -100,10 +100,17 @@ public class AnalLex {
                     {
                         this.Etat = 2;
                         tempChaine += caractere;
-                    } else {
+                    }
+                    else if (estUneMinuscule(caractere))
+                    {
                         ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
-                                              "1) Caractère inexistant\n" +
-                                              "2) Pas de majuscule ou de chiffre au debut d'une opérande");
+                                              "Il manque une majuscule au début de l'opérande");
+                        return null;
+                    }
+                    else
+                    {
+                        ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
+                                              "Caractère inexistant");
                         return null;
                     }
                     break;
@@ -129,7 +136,7 @@ public class AnalLex {
                         if(this.index == this.chaineLength)
                         {
                             ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
-                                                  "1) Underscore a la fin de l'opérande qui est tout a droite de l'ER");
+                                                  "Underscore a la fin de l'opérande qui est tout a droite de l'ER");
                             return null;
                         }
                     }
@@ -145,12 +152,23 @@ public class AnalLex {
                         this.Etat = 2;
                         tempChaine += caractere;
                     }
+                    else if (caractere == '_')
+                    {
+                        ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
+                                              "Double Underscore l'un a la suite de l'autre");
+                        return null;
+                    }
+                    else if (estUnChiffre(caractere) || caractere == '(' || caractere == ')' || caractere == '+' ||
+                                    caractere == '-' || caractere == '*' || caractere == '/')
+                    {
+                        ErreurLex("ERREUR lexicale: '" + this.chaine.charAt(this.index - 2) + "'\n" +
+                                              "Underscore a la fin d'une opérande");
+                        return null;
+                    }
                     else
                     {
                         ErreurLex("ERREUR lexicale: '" + caractere + "'\n" +
-                                              "1) Caractère inexistant\n" +
-                                              "2) Double Underscore l'un a la suite de l'autre\n" +
-                                              "3) Underscore a la fin d'une opérande");
+                                              "Caractère inexistant");
                         return null;
                     }
                     break;
