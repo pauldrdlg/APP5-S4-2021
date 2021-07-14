@@ -53,7 +53,7 @@ public class NoeudAST extends ElemAST {
   }
 
   public String postfix() {
-    return leftChild.postfix() + rightChild.postfix() + content;
+    return leftChild.postfix() + " " + rightChild.postfix() + " " + content;
   }
 
     @Override

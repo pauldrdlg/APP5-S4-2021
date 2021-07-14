@@ -86,14 +86,14 @@ public ElemAST E() {
   else if (t.type == types.parentheseFermante) {
     cptParenthese--;
     if (cptParenthese < 0) {
-      ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au terminal " + readIndex);
+      ErreurSynt("Erreur Syntaxique : parenthèse fermante de trop au terminal " + (readIndex + 1));
     }
     cptParenthese++;
   }
   else if (t.type == types.parentheseOuvrante ||
            terminalList.get(readIndex - 1).type == types.parentheseFermante ||
            t.type == types.operande) {
-      ErreurSynt("Erreur Syntaxique : il manque un opérateur au terminal " + readIndex);
+      ErreurSynt("Erreur Syntaxique : il manque un opérateur après le terminal " + readIndex);
   }
   return nRetour;
 }
@@ -148,7 +148,7 @@ public ElemAST F() {
       cptParenthese--;
       break;
     default:
-      ErreurSynt("Erreur Syntaxique: opérande ou parenthèse ouverte attendu au terminal " + readIndex);
+      ErreurSynt("Erreur Syntaxique : opérande ou parenthèse ouverte attendu après le terminal " + readIndex);
       break;
   }
   return n;

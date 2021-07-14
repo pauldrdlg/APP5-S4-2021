@@ -64,9 +64,9 @@ public class TestBench {
         System.out.println("Banc de test pour AST");
         System.out.println("==================================================");
         // Tests pour la validation
-        /*testAST("(U_x-V_y)*W_z/35");
-        testAST("(55-47)*14/2");
-        testAST("(U_x-)*W_z/35");*/
+        //TestAST("(U_x-V_y)*W_z/35");
+        //testAST("(55-47)*14/2");
+        //testAST("(U_x-)*W_z/35");
         // Tests de notre banc de tests
         /*testAST("6(7+8)/9)");
         testAST("67/Aa+Jj*77");
@@ -77,9 +77,10 @@ public class TestBench {
         System.out.println("Banc de test pour l'analyseur syntaxique");
         System.out.println("==================================================");
         // Tests pour la validation
-        /*testSyntaxique("(U_x-V_y)*W_z/35");
-        testSyntaxique("(55-47)*14/2");
-        testSyntaxique("(U_x-)*W_z/35");*/
+        testSyntaxique("1+X)");
+        //testSyntaxique("(U_x-V_y)*W_z/35");
+        //estSyntaxique("(55-47)*14/2");
+        //testSyntaxique("(U_x-)*W_z/35");
         // Tests de notre banc de tests
         /*testSyntaxique("123*(G_a-Ff)/4");
         testSyntaxique("6258G_g");
